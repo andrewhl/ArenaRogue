@@ -3,6 +3,8 @@
 
   var grid = require('./grid');
   var creature = require('./creature');
+
+
   var game = new Phaser.Game(
     grid.pixelWidth,
     grid.pixelHeight,

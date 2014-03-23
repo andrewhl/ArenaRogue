@@ -1,6 +1,7 @@
 'use strict';
 
 var grid = require('./grid');
+var _ = require('lodash');
 
 function creature(game, opts) {
   var coords = grid.getCoords(opts.x, opts.y),
