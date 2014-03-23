@@ -1,9 +1,9 @@
 'use strict';
 
-var gulp       = require('gulp'),
-    connect    = require('gulp-connect'),
-    browserify = require('gulp-browserify'),
-    rename     = require('gulp-rename');
+var gulp       = require('gulp');
+var connect    = require('gulp-connect');
+var rename     = require('gulp-rename');
+var browserify = require('gulp-browserify');
 
 // Connect
 gulp.task('connect', connect.server({
@@ -13,22 +13,20 @@ gulp.task('connect', connect.server({
 }));
 
 gulp.task('scripts', function() {
-  gulp.src('app/scripts/game.js', { read: false })
+  gulp.src('src/game.js', { read: false })
     .pipe(browserify({ debug: true}))
-    .pipe(rename('app.js'))
-    .pipe(gulp.dest('./app/scripts'));
-    
+    .pipe(rename('arena-rogue-game.js'))
+    .pipe(gulp.dest('app'));
 });
 
 gulp.task('default', ['connect', 'scripts'], function() {
   gulp.watch([
     'app/*.html',
-    'app/scripts/**/*.js'
+    'src/**/*.js'
   ], function(event) {
     return gulp.src(event.path)
       .pipe(connect.reload());
   });
-  gulp.watch([
-    'app/scripts/**/*.js'
-  ], ['scripts']);
+
+  gulp.watch('src/**/*.js', ['scripts']);
 });
