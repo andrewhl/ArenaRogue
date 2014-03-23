@@ -13,7 +13,6 @@
 
 
   function preload() {
-    
   }
 
   var player;
@@ -35,25 +34,20 @@
         var yPos = (tileSize * y) + (tileSize / 2),
             xPos = (tileSize * x) + (tileSize / 2),
             graphic = game.add.graphics(xPos, yPos);
-        
+
         graphic.beginFill(0xFFFFFF);
         graphic.drawCircle(0, 0, 1);
         graphic.endFill();
       }
     }
-    // game.physics.enable(player, Phaser.Physics.ARCADE)
+
+    cursors.right.onDown.add(player.moveRight, player);
+    cursors.left.onDown.add(player.moveLeft, player);
+    cursors.up.onDown.add(player.moveUp, player);
+    cursors.down.onDown.add(player.moveDown, player);
   }
 
   function update() {
-    if (cursors.left.isDown) {
-      player.moveLeft();
-    } else if (cursors.right.isDown) {
-      player.moveRight();
-    } else if (cursors.up.isDown) {
-      player.moveUp();
-    } else if (cursors.down.isDown) {
-      player.moveDown();
-    }
   }
 
   function render() {
