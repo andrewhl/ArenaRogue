@@ -16,6 +16,7 @@
   }
 
   var player;
+  var monster;
   var cursors;
   // var gridTiles;
   var tileSize = 20;
@@ -24,6 +25,7 @@
 
   function create() {
     player = creature(game, { text: '@', x: 1, y: 1 });
+    monster = creature(game, { text: 'r', x: 10, y: 10 });
     cursors = game.input.keyboard.createCursorKeys();
 
     var widthCount = arenaWidth / tileSize,
