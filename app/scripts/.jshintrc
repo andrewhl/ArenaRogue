@@ -18,5 +18,8 @@
     "trailing": true,
     "smarttabs": true,
     "jquery": true,
-    "globals": { "Phaser": true }
+    "globals": { 
+      "Phaser": true,
+      "_": true
+    }
 }

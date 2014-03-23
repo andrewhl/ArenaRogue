@@ -1,8 +1,15 @@
 (function() {
   'use strict';
 
+  var grid = require('./grid');
   var creature = require('./creature');
-  var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update, render: render });
+  var game = new Phaser.Game(
+    grid.pixelWidth,
+    grid.pixelHeight,
+    Phaser.AUTO,
+    'game',
+    { preload: preload, create: create, update: update, render: render }
+  );
 
 
   function preload() {
@@ -11,10 +18,29 @@
 
   var player;
   var cursors;
+  // var gridTiles;
+  var tileSize = 20;
+  var arenaWidth = 800;
+  var arenaHeight = 600;
 
   function create() {
-    player = creature(game, { text: '@', x: 4, y: 5 });
+    player = creature(game, { text: '@', x: 1, y: 1 });
     cursors = game.input.keyboard.createCursorKeys();
+
+    var widthCount = arenaWidth / tileSize,
+        heightCount = arenaHeight / tileSize;
+
+    for (var y = 0; y < heightCount; y ++) {
+      for (var x = 0; x < widthCount; x ++) {
+        var yPos = (tileSize * y) + (tileSize / 2),
+            xPos = (tileSize * x) + (tileSize / 2),
+            graphic = game.add.graphics(xPos, yPos);
+        
+        graphic.beginFill(0xFFFFFF);
+        graphic.drawCircle(0, 0, 1);
+        graphic.endFill();
+      }
+    }
     // game.physics.enable(player, Phaser.Physics.ARCADE)
   }
 

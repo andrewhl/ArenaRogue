@@ -13,7 +13,7 @@ gulp.task('connect', connect.server({
 }));
 
 gulp.task('scripts', function() {
-  gulp.src('app/scripts/game.js')
+  gulp.src('app/scripts/game.js', { read: false })
     .pipe(browserify({ debug: true}))
     .pipe(rename('app.js'))
     .pipe(gulp.dest('./app/scripts'));
