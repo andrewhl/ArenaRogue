@@ -13,7 +13,8 @@ gulp.task('connect', connect.server({
 }));
 
 gulp.task('scripts', function() {
-  gulp.src('src/game.js', { read: false })
+  return gulp
+    .src('src/game.js', { read: false })
     .pipe(browserify({ debug: true}))
     .pipe(rename('arena-rogue-game.js'))
     .pipe(gulp.dest('app'));
