@@ -3,7 +3,7 @@
 
   var grid = require('./grid');
   var creature = require('./creature');
-
+  var infoPanel = require('./infoPanel');
 
   var game = new Phaser.Game(
     grid.pixelWidth,
@@ -40,6 +40,8 @@
         arenaTiles.push(graphic);
       }
     }
+    
+    infoPanel.draw(game);
 
     cursors.right.onDown.add(player.moveRight, player);
     cursors.left.onDown.add(player.moveLeft, player);
