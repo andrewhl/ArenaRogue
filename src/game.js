@@ -4,7 +4,7 @@
   var grid = require('./grid');
   var arena = require('./arena');
   var creature = require('./creature');
-  var infoPanel = require('./infoPanel');
+  var infoPanel = require('./info-panel');
 
   var game = new Phaser.Game(
     grid.pixelWidth,
@@ -23,8 +23,9 @@
   var cursors;
 
   function create() {
-    arena.draw(game);
-    infoPanel.draw(game);
+    var infoPanelHeight = parseInt(grid.height / 6, 10);
+    arena.draw(game, { height: grid.height - infoPanelHeight  });
+    infoPanel.draw(game, { height: infoPanelHeight });
 
     player = creature(game, { text: '@', x: 1, y: 1 });
     monster = creature(game, { text: 'r', x: 10, y: 10 });
