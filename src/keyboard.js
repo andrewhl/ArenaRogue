@@ -20,7 +20,8 @@ function trigger(actionName) {
 
 function keyboard(game) {
   game.input.keyboard.onDownCallback = function (event) {
-    if (event.keycode === Phaser.Keyboard.K) {
+    event.preventDefault();
+    if (event.keyCode === Phaser.Keyboard.K) {
       trigger(actions.UP);
     }
   };

@@ -23,16 +23,15 @@
   // var monster;
   // var cursors;
 
-  var input = keyboard(game);
-
   function preload() {
   }
 
   function create() {
-    // measurements are in tiles
-    arena.draw(game, { x: 1, y: infoPanelHeight + 1, width: arenaWidth, height: arenaHeight });
-    arena.addCreature({ text: '@', x: 1, y: 1 });
+    var input = keyboard(game);
+
     arena.addInput(input);
+    arena.draw(game, { x: 1, y: infoPanelHeight + 1, width: arenaWidth, height: arenaHeight });
+    arena.addPlayer({ x: 1, y: 1 });
 
     infoPanel.draw(game, { width: infoPanelWidth, height: infoPanelHeight });
 
