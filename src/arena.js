@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var grid = require('./grid');
 var creature = require('./creature');
+var inputActions = require('./input-actions');
 
 var arenaGame;
 var arenaPosition;
@@ -56,7 +57,7 @@ function addPlayer(opts) {
 }
 
 function addInput(input) {
-  input.on('up', function () {
+  input.on(inputActions.UP, function () {
     player.moveUp();
   });
 }

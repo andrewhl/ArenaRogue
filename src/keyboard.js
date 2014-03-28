@@ -1,9 +1,8 @@
 'use strict';
 
+var actions = require('./input-actions');
+
 var listeners = {};
-var actions   = {
-  UP: 'up'
-};
 
 function on(actionName, cb) {
   var actionListeners = listeners[actionName] || [];
