@@ -4,10 +4,15 @@ var grid = {
   tileSize: 20,
   pixelHeight: 600,
   pixelWidth: 800,
-  getCoords: function(x, y) {
-    if (!y) {
-      y = x.y;
-      x = x.x;
+  getCoords: function(point) {
+    var x, y;
+
+    if (typeof point === 'object') {
+      x = point.x;
+      y = point.y;
+    } else {
+      x = arguments[0];
+      y = arguments[1];
     }
 
     var xCoord = (x - 1) * this.tileSize;

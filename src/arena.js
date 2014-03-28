@@ -9,9 +9,16 @@ var arenaPosition;
 var arenaTiles = [];
 var creatures = [];
 
-function translatePosition(point, y) {
-  var x = point;
-  if (!y) { y = point.y; x = point.x; }
+function translatePosition(point) {
+  var x, y;
+
+  if (typeof point === 'object') {
+    x = point.x;
+    y = point.y;
+  } else {
+    x = arguments[0];
+    y = arguments[1];
+  }
 
   return { x: x - 1 + arenaPosition.x, y: y - 1 + arenaPosition.y };
 }
