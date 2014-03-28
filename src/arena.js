@@ -56,9 +56,12 @@ function addPlayer(opts) {
   player = addCreature(_.merge(opts, { text: '@' }));
 }
 
-function addInput(input) {
+function bindInputs(input) {
   input.on(inputActions.UP, function () {
     player.moveUp();
+  });
+  input.on(inputActions.DOWN, function () {
+    player.moveDown();
   });
 }
 
@@ -66,5 +69,5 @@ module.exports = {
   draw: draw,
   addCreature: addCreature,
   addPlayer: addPlayer,
-  addInput: addInput
+  bindInputs: bindInputs
 };

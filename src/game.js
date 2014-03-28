@@ -29,7 +29,7 @@
   function create() {
     var input = keyboard(game);
 
-    arena.addInput(input);
+    arena.bindInputs(input);
     arena.draw(game, { x: 1, y: infoPanelHeight + 1, width: arenaWidth, height: arenaHeight });
     arena.addPlayer({ x: 1, y: 1 });
 

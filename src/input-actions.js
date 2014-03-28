@@ -1,4 +1,7 @@
 
 module.exports = {
-  UP: 'up'
+  UP: 'up',
+  DOWN: 'down',
+  LEFT: 'left',
+  RIGHT: 'right'
 };
