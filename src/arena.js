@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
+// var _ = require('lodash');
 var grid = require('./grid');
 var creature = require('./creature');
 
@@ -8,6 +8,8 @@ var arenaGame;
 var arenaPosition;
 var arenaTiles = [];
 var creatures = [];
+var inputs = [];
+
 
 function translatePosition(point) {
   var x, y;
@@ -49,7 +51,12 @@ function addCreature(opts) {
   return ct;
 }
 
+function addInput(input) {
+  inputs.push(input);
+}
+
 module.exports = {
   draw: draw,
-  addCreature: addCreature
+  addCreature: addCreature,
+  addInput: addInput
 };

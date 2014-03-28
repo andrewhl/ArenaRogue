@@ -4,7 +4,7 @@
   var grid = require('./grid');
   var arena = require('./arena');
   var infoPanel = require('./info-panel');
-  var creature = require('./creature');
+  var keyboard = require('./keyboard');
 
   var game = new Phaser.Game(
     grid.pixelWidth,
@@ -19,10 +19,11 @@
   var arenaWidth      = grid.width;
   var arenaHeight     = grid.height - infoPanelHeight;
 
-  var player;
-  var monster;
-  var cursors;
+  // var player;
+  // var monster;
+  // var cursors;
 
+  var input = keyboard(game);
 
   function preload() {
   }
@@ -31,6 +32,8 @@
     // measurements are in tiles
     arena.draw(game, { x: 1, y: infoPanelHeight + 1, width: arenaWidth, height: arenaHeight });
     arena.addCreature({ text: '@', x: 1, y: 1 });
+    arena.addInput(input);
+
     infoPanel.draw(game, { width: infoPanelWidth, height: infoPanelHeight });
 
     // player = creature(game, { text: '@', x: 1, y: 1 });
@@ -45,12 +48,12 @@
   function render() {
   }
 
-  function bindPlayerMovement(player) {
-    cursors = game.input.keyboard.createCursorKeys();
-    cursors.right.onDown.add(player.moveRight, player);
-    cursors.left.onDown.add(player.moveLeft, player);
-    cursors.up.onDown.add(player.moveUp, player);
-    cursors.down.onDown.add(player.moveDown, player);
-  }
+  // function bindPlayerMovement(player) {
+  //   cursors = game.input.keyboard.createCursorKeys();
+  //   cursors.right.onDown.add(player.moveRight, player);
+  //   cursors.left.onDown.add(player.moveLeft, player);
+  //   cursors.up.onDown.add(player.moveUp, player);
+  //   cursors.down.onDown.add(player.moveDown, player);
+  // }
 
 })();
