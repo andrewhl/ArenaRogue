@@ -35,5 +35,6 @@ function addCreature(opts) {
 }
 
 module.exports = {
-  draw: draw
+  draw: draw,
+  addCreature: addCreature
 };
