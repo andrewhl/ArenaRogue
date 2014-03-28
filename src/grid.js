@@ -5,8 +5,13 @@ var grid = {
   pixelHeight: 600,
   pixelWidth: 800,
   getCoords: function(x, y) {
-    var xCoord = (x - 1) * this.tileSize,
-        yCoord = this.pixelHeight - (y * this.tileSize);
+    if (!y) {
+      y = x.y;
+      x = x.x;
+    }
+
+    var xCoord = (x - 1) * this.tileSize;
+    var yCoord = this.pixelHeight - (y * this.tileSize);
 
     return {x: xCoord, y: yCoord};
   }

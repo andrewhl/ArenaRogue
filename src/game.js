@@ -29,8 +29,8 @@
 
   function create() {
     // measurements are in tiles
-    arena.draw(game, { x: 0, y: infoPanelHeight + 1, width: arenaWidth, height: arenaHeight });
-    arena.addCreature({ text: '@', x: 0, y: 0 });
+    arena.draw(game, { x: 1, y: infoPanelHeight + 1, width: arenaWidth, height: arenaHeight });
+    arena.addCreature({ text: '@', x: 1, y: 1 });
     infoPanel.draw(game, { width: infoPanelWidth, height: infoPanelHeight });
 
     // player = creature(game, { text: '@', x: 1, y: 1 });
