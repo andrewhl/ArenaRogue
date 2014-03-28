@@ -3,6 +3,27 @@
 var actions = require('./input-actions');
 var listeners = {};
 
+var mappings = {};
+mappings[actions.UP]    = [Phaser.Keyboard.K, Phaser.Keyboard.UP];
+mappings[actions.DOWN]  = [Phaser.Keyboard.J, Phaser.Keyboard.DOWN];
+mappings[actions.LEFT]  = [Phaser.Keyboard.H, Phaser.Keyboard.LEFT];
+mappings[actions.RIGHT] = [Phaser.Keyboard.L, Phaser.Keyboard.RIGHT];
+
+var optimizedMappings = (function () {
+  var result = {};
+  var action, keyCodes, keyCode, i, f;
+
+  for (action in mappings) {
+    keyCodes = mappings[action];
+    for (i = 0, f = keyCodes.length; i < f; i += 1) {
+      keyCode = keyCodes[i];
+      result[keyCode] = action;
+    }
+  }
+
+  return result;
+})();
+
 function on(actionName, cb) {
   var actionListeners = listeners[actionName] || [];
   actionListeners.push(cb);
@@ -18,11 +39,10 @@ function trigger(actionName) {
 
 function keyboard(game) {
   game.input.keyboard.onDownCallback = function (event) {
-    event.preventDefault();
-    if (event.keyCode === Phaser.Keyboard.K) {
-      trigger(actions.UP);
-    } else if (event.keyCode === Phaser.Keyboard.J) {
-      trigger(actions.DOWN);
+    var action = optimizedMappings[event.keyCode];
+    if (action) {
+      event.preventDefault();
+      trigger(action);
     }
   };
 
