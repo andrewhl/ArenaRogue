@@ -19,6 +19,19 @@ var grid = {
     var yCoord = this.pixelHeight - (y * this.tileSize);
 
     return {x: xCoord, y: yCoord};
+  },
+  getDims: function (dims) {
+    var w, h;
+
+    if (typeof dims === 'object') {
+      w = dims.width;
+      h = dims.height;
+    } else {
+      w = arguments[0];
+      h = arguments[1];
+    }
+
+    return { width: w * this.tileSize, height: h * this.tileSize };
   }
 };
 

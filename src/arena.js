@@ -7,6 +7,7 @@ var inputActions = require('./input-actions');
 
 var arenaGame;
 var arenaPosition;
+var arenaDimensions;
 var arenaTiles = [];
 var creatures = [];
 var player;
@@ -29,6 +30,7 @@ function translatePosition(point) {
 function draw(game, options) {
   arenaGame = game;
   arenaPosition = { x: options.x, y: options.y };
+  arenaDimensions = { width: options.width, height: options.height };
 
   var tileOffset = grid.tileSize / 2;
   for (var y = 1; y <= options.height; y += 1) {
@@ -58,15 +60,19 @@ function addPlayer(opts) {
 
 function bindInput(input) {
   input.on(inputActions.UP, function () {
+    if (player.y === (arenaPosition.y + arenaDimensions.height - 1)) { return false; }
     player.moveUp();
   });
   input.on(inputActions.DOWN, function () {
+    if (player.y === arenaPosition.y) { return false; }
     player.moveDown();
   });
   input.on(inputActions.LEFT, function () {
+    if (player.x === arenaPosition.x) { return false; }
     player.moveLeft();
   });
   input.on(inputActions.RIGHT, function () {
+    if (player.x === (arenaPosition.x + arenaDimensions.width - 1)) { return false; }
     player.moveRight();
   });
 }

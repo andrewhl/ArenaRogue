@@ -3,6 +3,7 @@
 
   var grid = require('./grid');
   var arena = require('./arena');
+  var sidePanel = require('./side-panel');
   var infoPanel = require('./info-panel');
   var keyboard = require('./keyboard');
 
@@ -14,9 +15,11 @@
     { preload: preload, create: create, update: update, render: render }
   );
 
+  var sidePanelWidth  = 10;
+  var sidePanelHeight = grid.height - 5;
   var infoPanelWidth  = grid.width;
   var infoPanelHeight = 5;
-  var arenaWidth      = grid.width;
+  var arenaWidth      = grid.width - sidePanelWidth;
   var arenaHeight     = grid.height - infoPanelHeight;
 
   function preload() {
@@ -29,6 +32,7 @@
     arena.draw(game, { x: 1, y: infoPanelHeight + 1, width: arenaWidth, height: arenaHeight });
     arena.addPlayer({ x: 1, y: 1 });
 
+    sidePanel.draw(game, { x: grid.width - sidePanelWidth, y: 1, width: sidePanelWidth, height: sidePanelHeight });
     infoPanel.draw(game, { width: infoPanelWidth, height: infoPanelHeight });
   }
 
