@@ -29,11 +29,15 @@
     var input = keyboard(game);
 
     arena.bindInput(input);
-    arena.draw(game, { x: 1, y: infoPanelHeight + 1, width: arenaWidth, height: arenaHeight });
-    arena.addPlayer({ x: 1, y: 1 });
+    arena.draw(game, { x: 1, y: 1, width: arenaWidth, height: arenaHeight });
+    arena.addPlayer({ x: arenaWidth / 2, y: arenaHeight });
 
     sidePanel.draw(game, { x: grid.width - sidePanelWidth, y: 1, width: sidePanelWidth, height: sidePanelHeight });
     infoPanel.draw(game, { width: infoPanelWidth, height: infoPanelHeight });
+
+    // sidePanel.setHeroName('Andrew');
+    // infoPanel.initData();
+    // addDatum(game, { x: 0, y: 1, text: '1' });
   }
 
   function update() {

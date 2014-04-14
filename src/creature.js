@@ -1,36 +1,38 @@
 'use strict';
 
 var grid = require('./grid');
-var _ = require('lodash');
+// var _ = require('lodash');
 
 var creaturePrototype = {
-  updateCoords: function () {
-    var coords = grid.getCoords(this.x, this.y);
-    this.instance.x = coords.x + this.tileOffsetX;
-    this.instance.y = coords.y + this.tileOffsetY;
-  },
   moveLeft: function() {
     this.x -= 1;
-    this.updateCoords();
+    updateCoords(this);
   },
   moveRight: function() {
     this.x += 1;
-    this.updateCoords();
+    updateCoords(this);
   },
   moveUp: function() {
-    this.y += 1;
-    this.updateCoords();
+    this.y -= 1;
+    updateCoords(this);
   },
   moveDown: function() {
-    this.y -= 1;
-    this.updateCoords();
+    this.y += 1;
+    updateCoords(this);
   }
 };
 
-function creature(game, opts) {
-  var text = game.add.text(0, 0, opts.text, { font: '16px Arial', fill: '#FFFFFF' });
+function updateCoords(creature) {
+  var coords = grid.getPixelCoords(creature.arena, creature.x, creature.y);
+  creature.instance.x = coords.x + creature.tileOffsetX;
+  creature.instance.y = coords.y + creature.tileOffsetY;
+}
+
+function creature(arena, opts) {
+  var text = arena.game.add.text(0, 0, opts.text, { font: '16px Arial', fill: '#FFFFFF' });
 
   var ct   = Object.create(creaturePrototype);
+  ct.arena = arena;
   ct.instance = text;
   ct.x = opts.x;
   ct.y = opts.y;
@@ -42,7 +44,7 @@ function creature(game, opts) {
     }
   });
 
-  ct.updateCoords();
+  updateCoords(ct);
 
   return ct;
 }

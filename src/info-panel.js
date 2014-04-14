@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var grid = require('./grid');
+// var datum = require('./datum');
 
 var infoPanel = {
   draw: function(game, options) {
@@ -9,14 +10,12 @@ var infoPanel = {
     var graphic = game.add.graphics(0, 0);
     var pixelHeight = opts.height * grid.tileSize;
     var startY  = grid.pixelHeight - pixelHeight;
+    this.heroName = 'Andrew';
 
     graphic.beginFill(0xAAAAAA);
     graphic.drawRect(0, startY, grid.pixelWidth, pixelHeight);
     graphic.endFill();
 
-    // no reason to return the graphic really, but it doesn't hurt
-    // and since we are injecting the "game" object anyway, it means
-    // that returning an object that depends on "game" is not so bad.
     return graphic;
   }
 };

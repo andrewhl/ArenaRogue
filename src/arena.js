@@ -5,37 +5,30 @@ var grid = require('./grid');
 var creature = require('./creature');
 var inputActions = require('./input-actions');
 
-var arenaGame;
 var arenaPosition;
 var arenaDimensions;
 var arenaTiles = [];
 var creatures = [];
 var player;
-
-
-function translatePosition(point) {
-  var x, y;
-
-  if (typeof point === 'object') {
-    x = point.x;
-    y = point.y;
-  } else {
-    x = arguments[0];
-    y = arguments[1];
-  }
-
-  return { x: x - 1 + arenaPosition.x, y: y - 1 + arenaPosition.y };
-}
+var arena = {
+  draw: draw,
+  addCreature: addCreature,
+  addPlayer: addPlayer,
+  bindInput: bindInput
+};
 
 function draw(game, options) {
-  arenaGame = game;
+  arena.game = game;
   arenaPosition = { x: options.x, y: options.y };
   arenaDimensions = { width: options.width, height: options.height };
+
+  arena.x = arenaPosition.x;
+  arena.y = arenaPosition.y;
 
   var tileOffset = grid.tileSize / 2;
   for (var y = 1; y <= options.height; y += 1) {
     for (var x = 1; x <= options.width; x += 1) {
-      var coords  = grid.getCoords(translatePosition(x, y));
+      var coords  = grid.getPixelCoords(arenaPosition, x, y);
       var graphic = game.add.graphics(coords.x + tileOffset, coords.y + tileOffset);
 
       graphic.beginFill(0xFFFFFF);
@@ -48,8 +41,7 @@ function draw(game, options) {
 }
 
 function addCreature(opts) {
-  var pos  = translatePosition(opts);
-  var ct = creature(arenaGame, { text: opts.text, x: pos.x, y: pos.y });
+  var ct   = creature(arena, { text: opts.text, x: opts.x, y: opts.y });
   creatures.push(ct);
   return ct;
 }
@@ -60,11 +52,11 @@ function addPlayer(opts) {
 
 function bindInput(input) {
   input.on(inputActions.UP, function () {
-    if (player.y === (arenaPosition.y + arenaDimensions.height - 1)) { return false; }
+    if (player.y === arenaPosition.y) { return false; }
     player.moveUp();
   });
   input.on(inputActions.DOWN, function () {
-    if (player.y === arenaPosition.y) { return false; }
+    if (player.y === (arenaPosition.y + arenaDimensions.height - 1)) { return false; }
     player.moveDown();
   });
   input.on(inputActions.LEFT, function () {
@@ -77,9 +69,4 @@ function bindInput(input) {
   });
 }
 
-module.exports = {
-  draw: draw,
-  addCreature: addCreature,
-  addPlayer: addPlayer,
-  bindInput: bindInput
-};
+module.exports = arena;
