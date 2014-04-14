@@ -8,7 +8,11 @@ var datumPrototype = {
 };
 
 function datum(game, opts) {
-  var text = game.add.text(opts.x, opts.y, opts.text, { font: '16px Arial', fill: '#FFFFFF' });
+  var textValue = opts.text;
+  if (opts.label) {
+    textValue = opts.label + ': ' + textValue;
+  }
+  var text = game.add.text(opts.x, opts.y, textValue, { font: '16px Arial', fill: '#FFFFFF' });
 
   var dt = Object.create(datumPrototype);
   dt.instance = text;

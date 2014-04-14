@@ -42,7 +42,14 @@ function convertRelativeCoordsToAbsolute(panel, point) {
     y = arguments[2];
   }
   
-  return { x: x - 1 + panel.x, y: y - 1 + panel.y };
+  var abs = { x: x - 1 + panel.x, y: y - 1 + panel.y };
+  if (panel.x > 1) {
+    abs.x += 1;
+  }
+  if (panel.y > 1) {
+    abs.y += 1;
+  }
+  return abs;
 }
 
 function convertCoordsToPixels(point) {
