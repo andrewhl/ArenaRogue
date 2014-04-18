@@ -1,34 +1,29 @@
 'use strict';
 
-// var _ = require('lodash');
 var grid = require('./grid');
-var datum = require('./datum');
+var _ = require('lodash');
+var text = require('./text');
 
 var data = [];
+var defaults = {
+  x: grid.width - 10,
+  y: 1,
+  width: 10,
+  height: grid.height - 5,
+  style: {
+    backgroundColor: 0x9BB4C9,
+    border: { width: 1, color: 0xFFFFFF }
+  }
+};
+
+var exports = {};
+
+exports.create = function(opts) {
+  var instance = _.extend({}, defaults, opts);
+  return instance;
+};
 
 var infoPanel = {
-  draw: function(game, options) {
-    var graphic     = game.add.graphics(0, 0);
-    var pixelWidth  = options.width * grid.tileSize;
-    var pixelHeight = options.height * grid.tileSize;
-    var startX      = grid.pixelWidth - pixelWidth;
-    var startY      = options.y;
-    var lineWidth   = 1;
-
-    this.heroName = 'Andrew';
-    this.game = game;
-    this.x = options.x;
-    this.y = options.y;
-
-    graphic.beginFill(0x9BB4C9);
-    graphic.drawRect(startX, startY, grid.pixelWidth, pixelHeight);
-    graphic.lineStyle(lineWidth, 0xFFFFFF, 1);
-    graphic.lineTo(startX, startY);
-    graphic.lineTo(startX, pixelHeight - lineWidth);
-    graphic.endFill();
-
-    return graphic;
-  },
   setHeroName: function(name) {
     this.heroName = name;
     drawHeroName();
@@ -53,7 +48,7 @@ Object.defineProperty(infoPanel, 'player', {
 
 function drawHeroName() {
   var coords = grid.getPixelCoords(infoPanel, { x: 1, y: 1 });
-  var name = datum(infoPanel.game, { label: 'Name', text: infoPanel.heroName, x: coords.x, y: coords.y });
+  var name = text(infoPanel.game, { label: 'Name', text: infoPanel.heroName, x: coords.x, y: coords.y });
 
   data.push(name);
   return name;
@@ -61,10 +56,10 @@ function drawHeroName() {
 
 function drawHeroHp() {
   var coords = grid.getPixelCoords(infoPanel, { x: 1, y: 2 });
-  var hp = datum(infoPanel.game, { label: 'HP', text: infoPanel.hp, x: coords.x, y: coords.y });
+  var hp = text(infoPanel.game, { label: 'HP', text: infoPanel.hp, x: coords.x, y: coords.y });
 
   data.push(hp);
   return hp;
 }
 
-module.exports = infoPanel;
+module.exports = exports;

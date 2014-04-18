@@ -3,18 +3,18 @@
 // var grid = require('./grid');
 // var _ = require('lodash');
 
-var datumPrototype = {
+var textPrototype = {
 
 };
 
-function datum(game, opts) {
+function text(game, opts) {
   var textValue = opts.text;
   if (opts.label) {
     textValue = opts.label + ': ' + textValue;
   }
   var text = game.add.text(opts.x, opts.y, textValue, { font: '16px Arial', fill: '#FFFFFF' });
 
-  var dt = Object.create(datumPrototype);
+  var dt = Object.create(textPrototype);
   dt.instance = text;
   dt.x = opts.x;
   dt.y = opts.y;
@@ -22,4 +22,4 @@ function datum(game, opts) {
   return dt;
 }
 
-module.exports = datum;
+module.exports = text;

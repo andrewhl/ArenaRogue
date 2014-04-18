@@ -4,7 +4,7 @@ var grid = {
   tileSize: 20,
   pixelHeight: 600,
   pixelWidth: 800,
-  getDims: function (dims) {
+  getPixelDims: function (dims) {
     var w, h;
 
     if (typeof dims === 'object') {

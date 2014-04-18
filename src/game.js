@@ -6,6 +6,8 @@
   var infoPanel = require('./info-panel');
   var logPanel = require('./log-panel');
   var keyboard = require('./keyboard');
+  var creature = require('./creature');
+  var renderer = require('./renderer');
 
   var game = new Phaser.Game(
     grid.pixelWidth,
@@ -15,28 +17,28 @@
     { preload: preload, create: create, update: update, render: render }
   );
 
-  var infoPanelWidth  = 10;
-  var infoPanelHeight = grid.height - 5;
-  var logPanelWidth  = grid.width;
-  var logPanelHeight = 5;
-  var arenaWidth      = grid.width - infoPanelWidth;
-  var arenaHeight     = grid.height - logPanelHeight;
+  var arenaInst, infoPanelInst, logPanelInst, playerInst;
 
   function preload() {
   }
 
   function create() {
-    var input = keyboard(game);
+    // var input = keyboard(game);
+    // var player = creature({ name: 'Andrew', hp: 10, text: '@' });
 
-    
-    arena.bindInput(input);
-    arena.draw(game, { x: 1, y: 1, width: arenaWidth, height: arenaHeight });
-    var player = arena.addPlayer({ x: arenaWidth / 2, y: arenaHeight });
+    // arena.bindInput(input);
+    arenaInst = arena.create();
+    infoPanelInst = infoPanel.create();
+    logPanelInst = logPanel.create();
+    playerInst = creature.create({ x: arenaInst.width / 2, y: arenaInst.height });
+    renderer.init(game);
+    renderer.drawMap(arenaInst);
+    renderer.drawPanel(infoPanelInst);
+    renderer.drawPanel(logPanelInst);
+    // infoPanel.player = player;
 
-    infoPanel.draw(game, { x: grid.width - infoPanelWidth, y: 1, width: infoPanelWidth, height: infoPanelHeight });
-    infoPanel.player = player;
-
-    logPanel.draw(game, { width: logPanelWidth, height: logPanelHeight });
+    renderer.drawCreature(arenaInst, playerInst);
+    // logPanel.draw(game, { width: logPanelWidth, height: logPanelHeight });
 
   }
 
