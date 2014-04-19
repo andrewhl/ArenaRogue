@@ -23,7 +23,7 @@ gulp.task('scripts', function() {
 gulp.task('default', ['connect', 'scripts'], function() {
   gulp.watch([
     'app/*.html',
-    'src/**/*.js'
+    'app/arena-rogue-game.js'
   ], function(event) {
     return gulp.src(event.path)
       .pipe(connect.reload());
