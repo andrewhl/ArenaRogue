@@ -12,14 +12,21 @@ exports.on = function(actionName, cb) {
   return this;
 };
 
-exports.trigger = function(actionName) {
-  if (!this.listeners) { return this; }
+exports.trigger = function(actionName, data) {
+  var self = this;
+  if (!self.listeners) { return self; }
 
-  var actionListeners = this.listeners[actionName] || [];
-  var params = Array.prototype.splice.call(arguments, 1);
+  var event  = {
+    active: true,
+    preventDefault: function() {
+      this.active = false;
+    }
+  };
+  var params = [event, data];
+  var actionListeners = self.listeners[actionName] || [];
   actionListeners.forEach(function (cb) {
-    cb.call(this, params);
+    cb.apply(self, params);
   });
 
-  return this;
+  return event.active;
 };

@@ -43,6 +43,8 @@
 
     var input = keyboard(game);
     input.bind(playerInst);
+
+    arenaInst.bindPlayer(playerInst);
   }
 
   function update() {

@@ -13,20 +13,32 @@ var exports = module.exports;
 
 var movement = {
   moveUp: function () {
-    this.y -= 1;
-    this.trigger('change');
+    var newY = this.y - 1;
+    if (this.trigger('beforeMove', { y: newY })) {
+      this.y = newY;
+      this.trigger('change');
+    }
   },
   moveDown: function () {
-    this.y += 1;
-    this.trigger('change');
+    var newY = this.y + 1;
+    if (this.trigger('beforeMove', { y: newY })) {
+      this.y = newY;
+      this.trigger('change');
+    }
   },
   moveLeft: function () {
-    this.x -= 1;
-    this.trigger('change');
+    var newX = this.x - 1;
+    if (this.trigger('beforeMove', { x: newX })) {
+      this.x = newX;
+      this.trigger('change');
+    }
   },
   moveRight: function () {
-    this.x += 1;
-    this.trigger('change');
+    var newX = this.x + 1;
+    if (this.trigger('beforeMove', { x: newX })) {
+      this.x = newX;
+      this.trigger('change');
+    }
   }
 };
 
