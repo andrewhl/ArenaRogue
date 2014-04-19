@@ -2,16 +2,11 @@
 
 var gulp       = require('gulp');
 var connect    = require('gulp-connect');
-var rename     = require('gulp-rename');
+
+
+// Scripts
 var browserify = require('gulp-browserify');
-
-// Connect
-gulp.task('connect', connect.server({
-  root: ['app'],
-  port: 9000,
-  livereload: true
-}));
-
+var rename     = require('gulp-rename');
 gulp.task('scripts', function() {
   return gulp
     .src('src/game.js', { read: false })
@@ -20,7 +15,15 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('default', ['connect', 'scripts'], function() {
+// Connect
+gulp.task('connect', connect.server({
+  root: ['app'],
+  port: 9000,
+  livereload: true
+}));
+
+// Watch
+gulp.task('watch', function() {
   gulp.watch([
     'app/*.html',
     'app/arena-rogue-game.js'
@@ -31,3 +34,6 @@ gulp.task('default', ['connect', 'scripts'], function() {
 
   gulp.watch('src/**/*.js', ['scripts']);
 });
+
+// Default
+gulp.task('default', ['connect', 'scripts', 'watch']);
