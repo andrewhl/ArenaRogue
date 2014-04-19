@@ -16,7 +16,7 @@ exports.drawCreature = function(panel, creature) {
     fill: '#FFFFFF'
   });
 
-  creature.on('change', function() {
+  creature.on('move', function() {
     var coords = grid.getPixelCoords(panel, creature);
     text.x = coords.x;
     text.y = coords.y;
