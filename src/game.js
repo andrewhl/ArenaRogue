@@ -27,19 +27,22 @@
     // var player = creature({ name: 'Andrew', hp: 10, text: '@' });
 
     // arena.bindInput(input);
-    arenaInst = arena.create();
+    arenaInst     = arena.create();
     infoPanelInst = infoPanel.create();
-    logPanelInst = logPanel.create();
-    playerInst = creature.create({ x: arenaInst.width / 2, y: arenaInst.height });
+    logPanelInst  = logPanel.create();
+    playerInst    = creature.create({
+      x: parseInt(arenaInst.width / 2, 10),
+      y: parseInt(arenaInst.height / 2, 10)
+    });
+
     renderer.init(game);
     renderer.drawMap(arenaInst);
     renderer.drawPanel(infoPanelInst);
     renderer.drawPanel(logPanelInst);
-    // infoPanel.player = player;
-
     renderer.drawCreature(arenaInst, playerInst);
-    // logPanel.draw(game, { width: logPanelWidth, height: logPanelHeight });
 
+    var input = keyboard(game);
+    input.bind(playerInst);
   }
 
   function update() {

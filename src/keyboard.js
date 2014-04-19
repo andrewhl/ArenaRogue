@@ -1,7 +1,8 @@
 'use strict';
 
+var _ = require('lodash');
 var actions = require('./input-actions');
-var listeners = {};
+var eventHandler = require('./event-handler');
 
 var mappings = {};
 mappings[actions.UP]    = [Phaser.Keyboard.K, Phaser.Keyboard.UP];
@@ -24,29 +25,34 @@ var optimizedMappings = (function () {
   return result;
 })();
 
-function on(actionName, cb) {
-  var actionListeners = listeners[actionName] || [];
-  actionListeners.push(cb);
-  listeners[actionName] = actionListeners;
-}
-
-function trigger(actionName) {
-  var actionListeners = listeners[actionName] || [];
-  actionListeners.forEach(function (cb) {
-    cb();
-  });
-}
-
 function keyboard(game) {
+  var instance = {};
+  _.extend(instance, eventHandler);
+
   game.input.keyboard.onDownCallback = function (event) {
     var action = optimizedMappings[event.keyCode];
     if (action) {
       event.preventDefault();
-      trigger(action);
+      instance.trigger(action);
     }
   };
 
-  return { on: on };
+  instance.bind = function (creature) {
+    this.on('up', function () {
+      creature.moveUp();
+    });
+    this.on('down', function () {
+      creature.moveDown();
+    });
+    this.on('left', function () {
+      creature.moveLeft();
+    });
+    this.on('right', function () {
+      creature.moveRight();
+    });
+  };
+
+  return instance;
 }
 
 keyboard.actions = actions;

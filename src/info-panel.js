@@ -1,12 +1,12 @@
 'use strict';
 
-var grid = require('./grid');
-var _ = require('lodash');
-var text = require('./text');
+var grid  = require('./grid');
+var _     = require('lodash');
+var text  = require('./text');
 
 var data = [];
 var defaults = {
-  x: grid.width - 10,
+  x: grid.width - 9,
   y: 1,
   width: 10,
   height: grid.height - 5,

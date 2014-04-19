@@ -10,10 +10,17 @@ exports.init = function(gameInstance) {
 };
 
 exports.drawCreature = function(panel, creature) {
-
   var coords = grid.getPixelCoords(panel, creature);
-  game.add.text(coords.x, coords.y, creature.symbol, { font: '16px Arial', fill: '#FFFFFF' });
+  var text = game.add.text(coords.x, coords.y, creature.symbol, {
+    font: '16px Arial',
+    fill: '#FFFFFF'
+  });
 
+  creature.on('change', function() {
+    var coords = grid.getPixelCoords(panel, creature);
+    text.x = coords.x;
+    text.y = coords.y;
+  });
 };
 
 exports.drawMap = function(map) {
