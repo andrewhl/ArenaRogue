@@ -39,16 +39,16 @@ module.exports = function keyboard(game) {
   };
 
   instance.bind = function (creature) {
-    this.on('up', function () {
+    this.on(actions.UP, function () {
       creature.moveUp();
     });
-    this.on('down', function () {
+    this.on(actions.DOWN, function () {
       creature.moveDown();
     });
-    this.on('left', function () {
+    this.on(actions.LEFT, function () {
       creature.moveLeft();
     });
-    this.on('right', function () {
+    this.on(actions.RIGHT, function () {
       creature.moveRight();
     });
   };
