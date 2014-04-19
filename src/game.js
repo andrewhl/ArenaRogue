@@ -17,7 +17,11 @@
     { preload: preload, create: create, update: update, render: render }
   );
 
-  var arenaInst, infoPanelInst, logPanelInst, playerInst;
+  var arenaInst,
+      infoPanelInst,
+      logPanelInst,
+      playerInst,
+      creatureInst;
 
   function preload() {
   }
@@ -34,17 +38,24 @@
       x: parseInt(arenaInst.width / 2, 10),
       y: parseInt(arenaInst.height / 2, 10)
     });
+    creatureInst  = creature.create({
+      x: parseInt(arenaInst.width / 2, 10),
+      y: 4,
+      symbol: 'r'
+    });
 
     renderer.init(game);
     renderer.drawMap(arenaInst);
     renderer.drawPanel(infoPanelInst);
     renderer.drawPanel(logPanelInst);
     renderer.drawCreature(arenaInst, playerInst);
+    renderer.drawCreature(arenaInst, creatureInst);
 
     var input = keyboard(game);
     input.bind(playerInst);
 
     arenaInst.bindPlayer(playerInst);
+    arenaInst.bindEnemy(creatureInst);
   }
 
   function update() {

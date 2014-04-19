@@ -12,35 +12,29 @@ var defaults = {
 
 var exports = module.exports;
 
-exports.create = function(opts) {
-  var instance = _.extend({}, defaults, opts);
-  instance.bindPlayer = function(player) {
+var arenaPrototype = {
+  bindPlayer: function(player) {
+    var self = this;
     player.on('beforeMove', function(event, dt) {
-      if (dt.x > instance.width || dt.x < 1 || dt.y > instance.height || dt.y < 1) {
+      if (dt.x > self.width || dt.x < 1 || dt.y > self.height || dt.y < 1) {
         event.preventDefault();
         return false;
       }
+      self.enemies.forEach(function(enemy) {
+        if (dt.x === enemy.x && dt.y === enemy.y) {
+          event.preventDefault();
+          return false;
+        }
+      });
     });
-  };
-  return instance;
+  },
+  bindEnemy: function(creature) {
+    this.enemies.push(creature);
+  }
 };
 
-
-// exports.bindInput = function (input) {
-//   input.on(inputActions.UP, function () {
-//     if (player.y === arenaPosition.y) { return false; }
-//     player.moveUp();
-//   });
-//   input.on(inputActions.DOWN, function () {
-//     if (player.y === (arenaPosition.y + arenaDimensions.height - 1)) { return false; }
-//     player.moveDown();
-//   });
-//   input.on(inputActions.LEFT, function () {
-//     if (player.x === arenaPosition.x) { return false; }
-//     player.moveLeft();
-//   });
-//   input.on(inputActions.RIGHT, function () {
-//     if (player.x === (arenaPosition.x + arenaDimensions.width - 1)) { return false; }
-//     player.moveRight();
-//   });
-// };
+exports.create = function(opts) {
+  var instance = Object.create(arenaPrototype);
+  instance.enemies = [];
+  return _.extend(instance, defaults, opts);
+};
