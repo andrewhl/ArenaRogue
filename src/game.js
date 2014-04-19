@@ -17,28 +17,19 @@
     { preload: preload, create: create, update: update, render: render }
   );
 
-  var arenaInst,
-      infoPanelInst,
-      logPanelInst,
-      playerInst,
-      creatureInst;
-
   function preload() {
   }
 
   function create() {
-    // var input = keyboard(game);
-    // var player = creature({ name: 'Andrew', hp: 10, text: '@' });
+    var arenaInst     = arena.create();
+    var infoPanelInst = infoPanel.create();
+    var logPanelInst  = logPanel.create();
 
-    // arena.bindInput(input);
-    arenaInst     = arena.create();
-    infoPanelInst = infoPanel.create();
-    logPanelInst  = logPanel.create();
-    playerInst    = creature.create({
+    var playerInst    = creature.create({
       x: parseInt(arenaInst.width / 2, 10),
       y: parseInt(arenaInst.height / 2, 10)
     });
-    creatureInst  = creature.create({
+    var creatureInst  = creature.create({
       x: parseInt(arenaInst.width / 2, 10),
       y: 4,
       symbol: 'r'
