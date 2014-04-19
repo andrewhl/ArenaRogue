@@ -21,6 +21,10 @@ exports.drawCreature = function(panel, creature) {
     text.x = coords.x;
     text.y = coords.y;
   });
+
+  creature.on('destroy', function() {
+    text.destroy();
+  });
 };
 
 exports.drawMap = function(map) {

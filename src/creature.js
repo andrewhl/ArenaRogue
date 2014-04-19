@@ -6,7 +6,8 @@ var eventHandler = require('./event-handler');
 var defaults = {
   x: 1,
   y: 1,
-  symbol: '@'
+  symbol: '@',
+  hp: 10
 };
 
 var exports = module.exports;
@@ -42,8 +43,17 @@ var movement = {
   }
 };
 
+var vitality = {
+  setHp: function(hp) {
+    this.hp = hp;
+    if (this.hp <= 0) {
+      this.trigger('destroy');
+    }
+  }
+};
+
 exports.create = function(opts) {
   var instance = _.extend({}, defaults, opts);
-  _.extend(instance, movement, eventHandler);
+  _.extend(instance, vitality, movement, eventHandler);
   return instance;
 };
