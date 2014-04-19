@@ -1,8 +1,8 @@
 'use strict';
 
-var _ = require('lodash');
-var actions = require('./input-actions');
-var eventHandler = require('./event-handler');
+var _             = require('lodash');
+var actions       = require('./input-actions');
+var eventHandler  = require('./event-handler');
 
 var mappings = {};
 mappings[actions.UP]    = [Phaser.Keyboard.K, Phaser.Keyboard.UP];
@@ -25,7 +25,8 @@ var optimizedMappings = (function () {
   return result;
 })();
 
-function keyboard(game) {
+
+module.exports = function keyboard(game) {
   var instance = {};
   _.extend(instance, eventHandler);
 
@@ -53,7 +54,4 @@ function keyboard(game) {
   };
 
   return instance;
-}
-
-keyboard.actions = actions;
-module.exports = keyboard;
+};
