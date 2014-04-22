@@ -43,17 +43,17 @@ function create() {
   renderer.drawCreature(arenaInst, playerInst);
   renderer.drawCreature(arenaInst, creatureInst);
 
-  var input = keyboard(game);
-  input.bind(playerInst);
+  var player = keyboard.create(game);
+  player.bind(playerInst);
 
-  var ai = simpleAI.create({ target: playerInst });
-  ai.bind(creatureInst);
+  var cpuPlayer = simpleAI.create({ target: playerInst });
+  cpuPlayer.bind(creatureInst);
 
-  arenaInst.bindPlayer(input);
+  arenaInst.bindPlayer(player);
   arenaInst.bindEnemy(creatureInst);
 
   var turnCtrl = turnController.create();
-  turnCtrl.bind(input, ai);
+  turnCtrl.bind(player, cpuPlayer);
   turnCtrl.start();
 }
 

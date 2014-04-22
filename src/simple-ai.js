@@ -3,16 +3,19 @@
 var exports = module.exports;
 
 exports.create = function(opts) {
-  var instance;
+  var instance = {};
   instance.target = opts.target;
-  
+
   instance.bind = function(creature) {
-    instance.creature = creature;
+    this.creature = creature;
   };
 
-  instance.target.on('move', function() {
-    instance.creature.trigger('move', )
-  })
+  // Add temporarily so that it matches a player interface
+  instance.on = function () {};
+
+  // instance.target.on('move', function() {
+  //   instance.creature.trigger('move', )
+  // })
 
   return instance;
 };

@@ -26,7 +26,9 @@ var optimizedMappings = (function () {
 })();
 
 
-module.exports = function keyboard(game) {
+var exports = module.exports;
+
+exports.create = function(game) {
   var instance = {};
   _.extend(instance, eventHandler);
 

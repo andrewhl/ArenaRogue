@@ -6,17 +6,17 @@ exports.create = function() {
   var instance;
 
   instance = {
-    inputs: [],
+    players: [],
     queue: [],
     turnIndex: 0,
-    isActive: function (input) {
-      return input === this.inputs[this.turnIndex];
+    isActive: function (player) {
+      return player === this.players[this.turnIndex];
     },
     bind: function() {
       var self = this;
-      var inputs = Array.prototype.splice.call(arguments, 0);
-      inputs.forEach(function(input) {
-        self.inputs.push(input);
+      var players = Array.prototype.splice.call(arguments, 0);
+      players.forEach(function(input) {
+        self.players.push(input);
         input.on('move', function(event, dt) {
           if (self.isActive(input)) {
             console.log('move');
@@ -34,7 +34,7 @@ exports.create = function() {
           self.execute();
         }
         console.log(self.turnIndex);
-      }, 5000);
+      }, 1000);
     },
     execute: function() {
       this.queue.forEach(function(action) {
