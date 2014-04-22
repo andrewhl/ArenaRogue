@@ -12,11 +12,11 @@ var arenaPrototype = {
         return;
       }
 
-      var enemy = _.find(self.enemies, { x: dt.x, y: dt.y });
-      if (enemy) {
-        event.preventDefault();
-        enemy.setHp(enemy.hp - 2);
-      }
+      // var enemy = _.find(self.enemies, { x: dt.x, y: dt.y });
+      // if (enemy) {
+      //   event.preventDefault();
+      //   enemy.setHp(enemy.hp - 2);
+      // }
     });
   },
   bindEnemy: function(creature) {

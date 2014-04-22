@@ -18,6 +18,7 @@ exports.trigger = function(actionName, data) {
 
   var event  = {
     active: true,
+    name: actionName,
     preventDefault: function() {
       this.active = false;
     }

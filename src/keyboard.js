@@ -1,14 +1,14 @@
 'use strict';
 
 var _             = require('lodash');
-var actions       = require('./input-actions');
+var inputActions  = require('./input-actions');
 var eventHandler  = require('./event-handler');
 
 var mappings = {};
-mappings[actions.UP]    = [Phaser.Keyboard.K, Phaser.Keyboard.UP];
-mappings[actions.DOWN]  = [Phaser.Keyboard.J, Phaser.Keyboard.DOWN];
-mappings[actions.LEFT]  = [Phaser.Keyboard.H, Phaser.Keyboard.LEFT];
-mappings[actions.RIGHT] = [Phaser.Keyboard.L, Phaser.Keyboard.RIGHT];
+mappings[inputActions.UP]    = [Phaser.Keyboard.K, Phaser.Keyboard.UP];
+mappings[inputActions.DOWN]  = [Phaser.Keyboard.J, Phaser.Keyboard.DOWN];
+mappings[inputActions.LEFT]  = [Phaser.Keyboard.H, Phaser.Keyboard.LEFT];
+mappings[inputActions.RIGHT] = [Phaser.Keyboard.L, Phaser.Keyboard.RIGHT];
 
 var optimizedMappings = (function () {
   var result = {};
@@ -38,18 +38,41 @@ module.exports = function keyboard(game) {
     }
   };
 
+  function getMovePoint(action, creature) {
+    var data = { x: creature.x, y: creature.y };
+    if (action === inputActions.UP) {
+      data.y -= 1;
+    } else if (action === inputActions.DOWN) {
+      data.y += 1;
+    } else if (action === inputActions.LEFT) {
+      data.x -= 1;
+    } else if (action === inputActions.RIGHT) {
+      data.x += 1;
+    }
+    return data;
+  }
+
+  instance.triggerMove = function(action, creature) {
+    var data = getMovePoint(action, creature);
+    if (this.trigger('beforeMove', data)) {
+      this.trigger('move', function () {
+        creature.move(getMovePoint(action, creature));
+      });
+    }
+  };
+
   instance.bind = function (creature) {
-    this.on(actions.UP, function () {
-      creature.moveUp();
-    });
-    this.on(actions.DOWN, function () {
-      creature.moveDown();
-    });
-    this.on(actions.LEFT, function () {
-      creature.moveLeft();
-    });
-    this.on(actions.RIGHT, function () {
-      creature.moveRight();
+    var self = this;
+    var moveActions = [
+      inputActions.UP,
+      inputActions.DOWN,
+      inputActions.LEFT,
+      inputActions.RIGHT
+    ];
+    moveActions.forEach(function(action) {
+      self.on(action, function (event) {
+        self.triggerMove(event.name, creature);
+      });
     });
   };
 

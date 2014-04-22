@@ -2,31 +2,27 @@
 
 module.exports = {
   moveUp: function () {
-    var newY = this.y - 1;
-    if (this.trigger('beforeMove', { x: this.x, y: newY })) {
-      this.y = newY;
-      this.trigger('move');
-    }
+    this.y -= 1;
+    this.triggerMove();
   },
   moveDown: function () {
-    var newY = this.y + 1;
-    if (this.trigger('beforeMove', { x: this.x, y: newY })) {
-      this.y = newY;
-      this.trigger('move');
-    }
+    this.y += 1;
+    this.triggerMove();
   },
   moveLeft: function () {
-    var newX = this.x - 1;
-    if (this.trigger('beforeMove', { x: newX, y: this.y })) {
-      this.x = newX;
-      this.trigger('move');
-    }
+    this.x -= 1;
+    this.triggerMove();
   },
   moveRight: function () {
-    var newX = this.x + 1;
-    if (this.trigger('beforeMove', { x: newX, y: this.y })) {
-      this.x = newX;
-      this.trigger('move');
-    }
+    this.x += 1;
+    this.triggerMove();
+  },
+  move: function (point) {
+    this.x = point.x;
+    this.y = point.y;
+    this.triggerMove();
+  },
+  triggerMove: function () {
+    this.trigger('move', { x: this.x, y: this.y });
   }
 };

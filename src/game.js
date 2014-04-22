@@ -7,6 +7,8 @@ var logPanel  = require('./log-panel');
 var keyboard  = require('./keyboard');
 var creature  = require('./creature');
 var renderer  = require('./renderer');
+var turnController  = require('./turn-controller');
+var simpleAI  = require('./simple-ai');
 
 var game = new Phaser.Game(
   grid.pixelWidth,
@@ -44,8 +46,15 @@ function create() {
   var input = keyboard(game);
   input.bind(playerInst);
 
-  arenaInst.bindPlayer(playerInst);
+  var ai = simpleAI.create({ target: playerInst });
+  ai.bind(creatureInst);
+
+  arenaInst.bindPlayer(input);
   arenaInst.bindEnemy(creatureInst);
+
+  var turnCtrl = turnController.create();
+  turnCtrl.bind(input, ai);
+  turnCtrl.start();
 }
 
 function update() {
