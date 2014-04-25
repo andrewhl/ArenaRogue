@@ -112,8 +112,8 @@ exports.create = function() {
       }
     },
     executeActions: function() {
-      this.queue.forEach(function(action) {
-        action();
+      this.queue.forEach(function(actionObj) {
+        actionObj.action();
       });
       this.queue = [];
     }

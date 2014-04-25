@@ -13,12 +13,15 @@ exports.create = function(opts) {
   // Add temporarily so that it matches a player interface
   instance.on = function () {};
 
-  // instance.target.on('move', function() {
-  //   instance.creature.trigger('move', )
-  // });
+  instance.creature.on('move', function() {
+    instance.creature.moveDown();
+  });
   
   instance.nextAction = function() {
-    return { action: 'move', turnCost: 1.0, creature: this.creature };
+    var move = function() {
+      instance.creature.trigger('move');
+    };
+    return { action: move, turnCost: 1.0, creature: this.creature };
   };
 
   return instance;
