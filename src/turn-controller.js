@@ -100,14 +100,14 @@ exports.create = function() {
       while (monstersLive) {
         // This condition isn't correct. Won't work if monsters kill the hero.
         result = (self.players.length === 1) ? false : true;
-        
+
         self.executeActions();
         self.reduceTurnBalance(1.0);
         self.calculateActivePlayers();
         self.prepareTurn();
 
         monstersLive = result;
-        
+
         self.processTurn();
       }
     },
