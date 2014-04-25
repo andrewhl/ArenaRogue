@@ -11,7 +11,8 @@ exports.defaults = {
   x: 1,
   y: 1,
   symbol: '@',
-  hp: 10
+  hp: 10,
+  turnBalance: 0.0
 };
 
 exports.create = function(opts) {

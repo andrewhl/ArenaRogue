@@ -16,6 +16,10 @@ exports.create = function(opts) {
   // instance.target.on('move', function() {
   //   instance.creature.trigger('move', )
   // })
+  
+  instance.nextAction = function() {
+    return { action: 'move', turnCost: 1.0, creature: this.creature };
+  };
 
   return instance;
 };
