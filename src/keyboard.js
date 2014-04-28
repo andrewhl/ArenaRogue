@@ -54,17 +54,21 @@ exports.create = function(game) {
     return data;
   }
 
-  instance.triggerMove = function(action, creature) {
-    var data = getMovePoint(action, creature);
+  instance.triggerMove = function(actionName, creature) {
+    var data = getMovePoint(actionName, creature);
     if (this.trigger('beforeMove', data)) {
-      this.trigger('move', function () {
-        creature.move(getMovePoint(action, creature));
-      });
+      var move = function() {
+        creature.move(getMovePoint(actionName, creature));
+      };
+      var action = { action: move, turnCost: 1.0, creature: this.creature };
+      instance.queue.push(action);
+      instance.trigger('actionQueued');
     }
   };
 
   instance.bind = function (creature) {
     var self = this;
+    self.creature = creature;
     var moveActions = [
       inputActions.UP,
       inputActions.DOWN,
@@ -77,6 +81,25 @@ exports.create = function(game) {
       });
     });
   };
+
+  instance.queue = [];
+
+  instance.nextAction = function(actionRequest) {
+    if (instance.queue.length > 0) {
+      var action = instance.queue.splice(0, 1)[0];
+      actionRequest(action);
+    } else {
+      instance.nextActionRequest = actionRequest;
+    }
+  };
+
+  instance.on('actionQueued', function () {
+    if (instance.nextActionRequest) {
+      var action = instance.queue.splice(0, 1)[0];
+      instance.nextActionRequest(action);
+      instance.nextActionRequest = null;
+    }
+  });
 
   return instance;
 };

@@ -20,11 +20,11 @@ exports.create = function(opts) {
     instance.creature.moveDown();
   });
 
-  instance.nextAction = function() {
+  instance.nextAction = function(done) {
     var move = function() {
       instance.creature.trigger('move');
     };
-    return { action: move, turnCost: 1.0, creature: this.creature };
+    done({ action: move, turnCost: 1.0, creature: this.creature });
   };
 
   return instance;

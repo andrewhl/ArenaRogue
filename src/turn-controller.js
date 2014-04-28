@@ -33,12 +33,25 @@ exports.create = function() {
         self.activePlayers.push(input);
       });
     },
-    getCurrentActions: function() {
+    getCurrentActions: function(done) {
       var self = this;
-      self.activePlayers.forEach(function(input) {
-        if (input.creature.turnBalance < 1.0) {
-          self.queue.push(input.nextAction());
-        }
+
+      if (self.currentActionIndex >= self.activePlayers.length) {
+        done();
+        return;
+      }
+      var input = self.activePlayers[self.currentActionIndex];
+
+      if (input.creature.turnBalance >= 1.0) {
+        self.currentActionIndex += 1;
+        self.getCurrentActions(done);
+        return;
+      }
+
+      input.nextAction(function(action) {
+        self.queue.push(action);
+        self.currentActionIndex += 1;
+        self.getCurrentActions(done);
       });
     },
     calculateTurnBalance: function() {
@@ -73,43 +86,38 @@ exports.create = function() {
       var self = this;
       self.initTurnBalance(self.players, 0.0);
       self.setupActivePlayers();
-      self.prepareTurn();
-      self.processTurn();
+      self.startTurn();
     },
-    prepareTurn: function() {
+    startTurn: function () {
       var self = this;
-      var stillActivePlayers = true;
-      var result;
+      self.prepareTurn(function() {
+        self.processTurn(function () {
+          self.startTurn();
+        });
+      });
+    },
+    prepareTurn: function(done) {
+      var self = this;
 
-      while (stillActivePlayers) {
-        result = (self.activePlayers.length === 0) ? false : true;
-        self.getCurrentActions();
+      if (self.activePlayers.length === 0) {
+        done();
+        return;
+      }
+
+      self.currentActionIndex = 0;
+      self.getCurrentActions(function() {
         self.calculateTurnBalance();
         self.calculateInactivePlayers();
-
-        stillActivePlayers = result;
-
-        self.prepareTurn();
-      }
+        //self.prepareTurn(done);
+      });
     },
     processTurn: function() {
       var self = this;
-      var monstersLive = true;
-      var result;
 
-      while (monstersLive) {
-        // This condition isn't correct. Won't work if monsters kill the hero.
-        result = (self.players.length === 1) ? false : true;
-
-        self.executeActions();
-        self.reduceTurnBalance(1.0);
-        self.calculateActivePlayers();
-        self.prepareTurn();
-
-        monstersLive = result;
-
-        self.processTurn();
-      }
+      if (self.players.length === 1) { return; }
+      self.executeActions();
+      self.reduceTurnBalance(1.0);
+      self.calculateActivePlayers();
     },
     executeActions: function() {
       this.queue.forEach(function(actionObj) {
