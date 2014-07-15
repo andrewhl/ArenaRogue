@@ -39,7 +39,7 @@ gulp.task('test', function (done) {
 });
 
 gulp.task('tdd', function (done) {
-  karma.start(karmaCommonConf, done);
+  karma.start(_.assign({}, karmaCommonConf, {watch:true}), done);
 });
 
 // Connect
