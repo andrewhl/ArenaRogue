@@ -21,16 +21,18 @@ var karmaCommonConf = {
   browsers: ['Chrome'],
   frameworks: ['browserify', 'jasmine'],
   files: [
+    'node_modules/lodash/dist/lodash.min.js',
     'app/components/**/*.min.js',
   ],
   browserify: {
+    debug: true,
     files: [
       'src/**/*.js',
       'test/**/*.spec.js'
     ]
   },
   preprocessors: {
-    "/**/*.browserify": "browserify"
+    '/**/*.browserify': 'browserify'
   }
 };
 
@@ -39,7 +41,6 @@ gulp.task('test', function () {
 });
 
 gulp.task('tdd', function () {
-  // gulp.watch(karmaCommonConf.browserify.files, ['test']);
   karma.start(_.assign({}, karmaCommonConf, {watch: true}));
 });
 
