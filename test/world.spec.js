@@ -1,5 +1,4 @@
 var World = require('../src/world');
-var Creature = require('../src/creature');
 
 describe('world', function() {
 
@@ -7,7 +6,7 @@ describe('world', function() {
 
   beforeEach(function() {
     world = World.create();
-    var creature = world.createCreature({name: 'Goblin'});
+    world.createCreature({name: 'Goblin'});
   });
 
   it('has an array of creatures', function() {

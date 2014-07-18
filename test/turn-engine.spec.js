@@ -1,6 +1,5 @@
 var TurnEngine = require('../src/turn-engine');
 var World = require('../src/world');
-var Creature = require('../src/creature');
 
 describe('turn-engine', function () {
 
@@ -72,7 +71,7 @@ describe('turn-engine', function () {
       engine.nextTick();
 
       expect(this.creature1.getDelay()).toBe(10);
-    })
+    });
   });
 
   describe('#onActionReady', function () {
