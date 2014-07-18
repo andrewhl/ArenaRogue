@@ -44,11 +44,14 @@ gulp.task('tdd', function () {
 });
 
 // Connect
-gulp.task('connect', connect.server({
-  root: ['app'],
-  port: 9000,
-  livereload: true
-}));
+gulp.task('connect', function () {
+  return connect
+    .server({
+      root: ['app'],
+      port: 9000,
+      livereload: true
+    });
+});
 
 // Watch
 gulp.task('watch', function() {
