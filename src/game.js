@@ -9,6 +9,7 @@ var creature  = require('./creature');
 var renderer  = require('./renderer');
 var turnController  = require('./turn-controller');
 var simpleAI  = require('./simple-ai');
+var world     = require('./world');
 
 var game = new Phaser.Game(
   grid.pixelWidth,
@@ -25,12 +26,13 @@ function create() {
   var arenaInst     = arena.create();
   var infoPanelInst = infoPanel.create();
   var logPanelInst  = logPanel.create();
+  var worldInst     = world.create();
 
-  var playerInst    = creature.create({
+  var playerInst    = worldInst.createCreature({
     x: parseInt(arenaInst.width / 2, 10),
     y: parseInt(arenaInst.height / 2, 10)
   });
-  var creatureInst  = creature.create({
+  var creatureInst  = worldInst.createCreature({
     x: parseInt(arenaInst.width / 2, 10),
     y: 4,
     symbol: 'r'

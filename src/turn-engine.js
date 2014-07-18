@@ -3,15 +3,30 @@
 var _ = require('lodash');
 
 var TurnEngine = function () {
-  this.actions = [];
+  this.creatures = [];
 };
 
 _.extend(TurnEngine.prototype, {
-  queue: function (action) {
-    this.actions.push(action);
+  addCreature: function (creature) {
+    this.creatures.push(creature);
   },
-  getNextAction: function() {
-    return this.actions[0];
+  nextTick: function () {
+    var self = this;
+    this.creatures.forEach(function(creature) {
+      var delay = creature.getDelay();
+      if (delay === 0) {
+        return self.onActionReady(creature);
+      } else {
+        delay = delay - 1;
+        creature.setDelay(delay);
+        return false;
+      }
+    });
+  },
+  onActionReady: function(creature) {
+    var action = creature.getAction();
+    creature.setDelay(action.cost);
+    return action;
   }
 });
 

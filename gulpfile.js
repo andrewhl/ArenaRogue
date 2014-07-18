@@ -34,12 +34,13 @@ var karmaCommonConf = {
   }
 };
 
-gulp.task('test', function (done) {
-  karma.start(_.assign({}, karmaCommonConf, {singleRun: true}), done);
+gulp.task('test', function () {
+  karma.start(_.assign({}, karmaCommonConf, {singleRun: true}));
 });
 
-gulp.task('tdd', function (done) {
-  karma.start(_.assign({}, karmaCommonConf, {watch:true}), done);
+gulp.task('tdd', function () {
+  // gulp.watch(karmaCommonConf.browserify.files, ['test']);
+  karma.start(_.assign({}, karmaCommonConf, {watch: true}));
 });
 
 // Connect
