@@ -13,7 +13,8 @@
     "url": "https://github.com/andrewhl/ArenaRogue/issues"
   },
   "dependencies": {
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "monologue.js": "^0.2.1"
   },
   "devDependencies": {
     "gulp": "~3.8.0",

@@ -25,7 +25,6 @@ var optimizedMappings = (function () {
   return result;
 })();
 
-
 var exports = module.exports;
 
 exports.create = function(game) {
