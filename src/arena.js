@@ -6,18 +6,6 @@ var grid  = require('./grid');
 var arenaPrototype = {
   bindPlayer: function(player) {
     var self = this;
-    player.on('beforeMove', function(event, dt) {
-      if (outOfBounds(self, dt)) {
-        event.preventDefault();
-        return;
-      }
-
-      // var enemy = _.find(self.enemies, { x: dt.x, y: dt.y });
-      // if (enemy) {
-      //   event.preventDefault();
-      //   enemy.setHp(enemy.hp - 2);
-      // }
-    });
   },
   bindEnemy: function(creature) {
     var self = this;
@@ -39,8 +27,8 @@ var exports = module.exports;
 exports.defaults = {
   x: 1,
   y: 1,
-  width: grid.width - 10,
-  height: grid.height - 5
+  width: grid.width,
+  height: grid.height
 };
 
 exports.create = function(opts) {

@@ -23,6 +23,6 @@ module.exports = {
     this.triggerMove();
   },
   triggerMove: function () {
-    this.trigger('move', { x: this.x, y: this.y });
+    this.emit('move', { x: this.x, y: this.y });
   }
 };

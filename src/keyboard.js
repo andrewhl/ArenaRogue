@@ -25,80 +25,93 @@ var optimizedMappings = (function () {
   return result;
 })();
 
-var exports = module.exports;
-
-exports.create = function(game) {
-  var instance = {};
-  _.extend(instance, eventHandler);
-
-  game.input.keyboard.onDownCallback = function (event) {
-    var action = optimizedMappings[event.keyCode];
-    if (action) {
-      event.preventDefault();
-      instance.trigger(action);
-    }
-  };
-
-  function getMovePoint(action, creature) {
-    var data = { x: creature.x, y: creature.y };
-    if (action === inputActions.UP) {
-      data.y -= 1;
-    } else if (action === inputActions.DOWN) {
-      data.y += 1;
-    } else if (action === inputActions.LEFT) {
-      data.x -= 1;
-    } else if (action === inputActions.RIGHT) {
-      data.x += 1;
-    }
-    return data;
-  }
-
-  instance.triggerMove = function(actionName, creature) {
-    var data = getMovePoint(actionName, creature);
-    if (this.trigger('beforeMove', data)) {
-      var move = function() {
-        creature.move(getMovePoint(actionName, creature));
-      };
-      var action = { action: move, turnCost: 1.0, creature: this.creature };
-      instance.queue.push(action);
-      instance.trigger('actionQueued');
-    }
-  };
-
-  instance.bind = function (creature) {
-    var self = this;
-    self.creature = creature;
-    var moveActions = [
-      inputActions.UP,
-      inputActions.DOWN,
-      inputActions.LEFT,
-      inputActions.RIGHT
-    ];
-    moveActions.forEach(function(action) {
-      self.on(action, function (event) {
-        self.triggerMove(event.name, creature);
+module.exports = {
+  create: function (creature, game) {
+    game.input.keyboard.onDownCallback = function (event) {
+      var keycommand = optimizedMappings[event.keyCode];
+      creature.queueAction({
+        cost: 0,
+        command: keycommand
       });
-    });
-  };
-
-  instance.queue = [];
-
-  instance.nextAction = function(actionRequest) {
-    if (instance.queue.length > 0) {
-      var action = instance.queue.splice(0, 1)[0];
-      actionRequest(action);
-    } else {
-      instance.nextActionRequest = actionRequest;
     }
-  };
-
-  instance.on('actionQueued', function () {
-    if (instance.nextActionRequest) {
-      var action = instance.queue.splice(0, 1)[0];
-      instance.nextActionRequest(action);
-      instance.nextActionRequest = null;
-    }
-  });
-
-  return instance;
+  }
 };
+
+// var exports = module.exports;
+//
+// exports.create = function(game) {
+//   var instance = {};
+//   _.extend(instance, eventHandler);
+//
+//   game.input.keyboard.onDownCallback = function (event) {
+//     var action = optimizedMappings[event.keyCode];
+//     if (action) {
+//       event.preventDefault();
+//       instance.trigger(action);
+//     }
+//   };
+//
+//   function getMovePoint(action, creature) {
+//     var data = { x: creature.x, y: creature.y };
+//     if (action === inputActions.UP) {
+//       data.y -= 1;
+//     } else if (action === inputActions.DOWN) {
+//       data.y += 1;
+//     } else if (action === inputActions.LEFT) {
+//       data.x -= 1;
+//     } else if (action === inputActions.RIGHT) {
+//       data.x += 1;
+//     }
+//     return data;
+//   }
+//
+//   instance.triggerMove = function(actionName, creature) {
+//     var data = getMovePoint(actionName, creature);
+//     if (this.trigger('beforeMove', data)) {
+//       var move = function() {
+//         creature.move(getMovePoint(actionName, creature));
+//       };
+//       var action = { action: move, turnCost: 1.0, creature: this.creature };
+//       instance.queue.push(action);
+//       instance.trigger('actionQueued');
+//     }
+//   };
+//
+//   instance.bind = function (creature) {
+//     var self = this;
+//     self.creature = creature;
+//     var moveActions = [
+//       inputActions.UP,
+//       inputActions.DOWN,
+//       inputActions.LEFT,
+//       inputActions.RIGHT
+//     ];
+//     moveActions.forEach(function(action) {
+//       self.on(action, function (event) {
+//         self.triggerMove(event.name, creature);
+//       });
+//     });
+//   };
+//
+//   instance.queue = [];
+//
+//   instance.nextAction = function(actionRequest) {
+//     if (instance.queue.length > 0) {
+//       var action = instance.queue.splice(0, 1)[0];
+//       actionRequest(action);
+//     } else {
+//       instance.nextActionRequest = actionRequest;
+//     }
+//   };
+//
+//   instance.on('actionQueued', function () {
+//     if (instance.nextActionRequest) {
+//       var action = instance.queue.splice(0, 1)[0];
+//       instance.nextActionRequest(action);
+//       instance.nextActionRequest = null;
+//     }
+//   });
+//
+//   return instance;
+// };
+

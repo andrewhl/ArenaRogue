@@ -2,8 +2,7 @@
 
 var _             = require('lodash');
 var Monologue     = require('monologue.js');
-var eventHandler  = require('./event-handler');
-var movement      = require('./movement');
+var inputActions  = require('./input-actions');
 var vitality      = require('./vitality');
 
 var exports = module.exports;
@@ -26,23 +25,28 @@ Monologue.mixInto(Creature);
 
 _.extend(Creature.prototype, {
   executeCurrentAction: function() {
-    // world.receiveAction(this.currentAction);
+    var action = this.currentAction;
+    if (action.command === inputActions.UP) {
+      this.y -= 1;
+      this.emit('move');
+    }
     this.currentAction = this.actionQueue.splice(0, 1)[0];
     return true;
   },
   queueAction: function(action) {
     if (! this.currentAction) {
       this.currentAction = action;
+      this.emit('actionReady');
     } else {
       this.actionQueue.push(action);
     }
   }
 });
 
-exports.create = function(opts) {
-  var instance = new Creature(opts);
+exports.create = function(options) {
+  var instance = new Creature(options);
 
-  _.extend(instance, vitality, movement, eventHandler);
+  _.extend(instance, vitality);
   Object.defineProperties(instance, {
     hasCurrentAction: {
       get: function() {

@@ -3,6 +3,7 @@
 var _ = require('lodash');
 
 var TurnEngine = function () {
+  this.currentIndex = 0;
   this.items = [];
 };
 
@@ -10,23 +11,23 @@ _.extend(TurnEngine.prototype, {
   addCreature: function (creature) {
     var self = this;
     creature.on('actionReady', function (event) {
-      self.internalTick();
+      var item = self.getCurrentItem();
+      if (item.creature === creature) {
+        self.internalTick();
+      }
     });
     self.items.push( { creature: creature, delay: null } );
     return true;
   },
   nextTick: function () {
     var self = this;
-    if (self.busy) {
-      return false;
+    if (!self.tickDone()) {
+      return;
     }
 
-    self.busy = true;
     self.currentIndex = 0;
 
     while(this.internalTick());
-
-    return true;
   },
   internalTick: function () {
     var self = this;
@@ -39,12 +40,16 @@ _.extend(TurnEngine.prototype, {
     var creature = item.creature;
 
     if (item.delay === null) {
+      if (creature.currentAction === null) {
+        return false;
+      }
       item.delay = creature.currentAction.cost;
     }
 
     if (item.delay === 0) {
       if (creature.hasCurrentAction) {
         creature.executeCurrentAction();
+        self.currentIndex += 1;
         return self.updateItemDelay(item);
       }
     } else {
@@ -55,16 +60,12 @@ _.extend(TurnEngine.prototype, {
     return true;
   },
   tickDone: function() {
-    return this.currentIndex > this.items.length;
+    return this.currentIndex === this.items.length;
   },
   updateItemDelay: function(item) {
     var self = this;
     if (item.creature.hasCurrentAction) {
       item.delay = item.creature.currentAction.cost;
-      self.currentIndex += 1;
-      if (self.tickDone()) {
-        self.busy = false;
-      }
     } else {
       return false;
     }

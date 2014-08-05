@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp       = require('gulp');
-var connect    = require('gulp-connect');
 var karma      = require('karma').server;
 var _          = require('lodash');
 
@@ -45,13 +44,13 @@ gulp.task('tdd', function () {
 });
 
 // Connect
+var connect = require('gulp-connect');
 gulp.task('connect', function () {
-  return connect
-    .server({
-      root: ['app'],
-      port: 9000,
-      livereload: true
-    });
+  connect.server({
+    root: ['app'],
+    port: 9000,
+    livereload: true
+  });
 });
 
 // Watch
